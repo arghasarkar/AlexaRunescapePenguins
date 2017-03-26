@@ -16,10 +16,18 @@ exports.handler = (event, context, callback) => {
             case "LaunchRequest": {
                 // Launch request
                 console.log("Launch request");
-                generateResponse(
-                    buildSpeechletResponse("Hello world", false),
-                    {}
-                );
+                
+                getPenguinSpeech().then(speechData => {
+                    "use strict";
+                    console.log("Speech: ", speechData);
+
+                    context.succeed(
+                        generateResponse(
+                            buildSpeechletResponse(speechData, true),
+                            {}
+                        )
+                    );
+                });
                 break;
             }
 
@@ -31,8 +39,17 @@ exports.handler = (event, context, callback) => {
                 switch (event.request.intent.name) {
                     case "PenguinLocation" : {
 
-                        return fetchData();
+                        getPenguinSpeech().then(speechData => {
+                            "use strict";
+                            console.log("Speech: ", speechData);
 
+                            context.succeed(
+                                generateResponse(
+                                    buildSpeechletResponse(speechData, true),
+                                    {}
+                                )
+                            );
+                        });
 
                     }
 
@@ -58,7 +75,6 @@ exports.handler = (event, context, callback) => {
     } catch(error) {
         endSessionHandler("Catch hit");
     }
-
 
 
     function endSessionHandler(speech) {
@@ -92,7 +108,7 @@ function getPenguinSpeech() {
 
         for (let i = 0; i < penguins.length; i++) {
             let _speech = "The " + penguins[i].name + " penguin was last spotted at " + penguins[i].last_location + ". ";
-   
+
             speech += _speech;
         }
 

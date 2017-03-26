@@ -59,20 +59,7 @@ exports.handler = (event, context, callback) => {
         endSessionHandler("Catch hit");
     }
 
-    function fetchData() {
-        "use strict";
 
-        return fetch("http://2016.world60pengs.com/rest/cache/actives.json?_=1490474932011").then((response) => {
-            "use strict";
-            console.log("Fetch works");
-
-            console.log(response.text);
-
-            //return response.text;
-
-        });
-
-    }
 
     function endSessionHandler(speech) {
         if (typeof speech === "undefined") {
@@ -87,6 +74,32 @@ exports.handler = (event, context, callback) => {
     }
 };
 
+getPenguinSpeech().then(data => {
+    "use strict";
+    console.log(data);
+});
+
+function getPenguinSpeech() {
+    "use strict";
+
+    let pengs = require("./NonCombat/Penguins");
+
+    return pengs.getPenguinLocations().then((json) => {
+        "use strict";
+        let penguins = json.Activepenguin;
+
+        let speech = "There are " + penguins.length + " this week. ";
+
+        for (let i = 0; i < penguins.length; i++) {
+            let _speech = "The " + penguins[i].name + " penguin was last spotted at " + penguins[i].last_location + ". ";
+   
+            speech += _speech;
+        }
+
+        return speech;
+    });
+
+}
 
 
 // Helper functions

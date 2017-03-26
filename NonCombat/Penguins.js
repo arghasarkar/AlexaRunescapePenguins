@@ -9,6 +9,16 @@ exports.getPenguinLocations = function() {
     return fetchPenguinLocations();
 };
 
+exports.getPenguinNumbers = function() {
+    let pengNumbersPromise = new Promise((resolve, reject) => {
+        fetchPenguinLocations().then(data => {
+            resolve(data.Activepenguin.length);
+        });
+    });
+
+    return pengNumbersPromise;
+};
+
 function fetchPenguinLocations() {
     "use strict";
 

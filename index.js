@@ -37,6 +37,13 @@ exports.handler = (event, context, callback) => {
                 console.log(event.request.intent.name);
 
                 switch (event.request.intent.name) {
+
+                    case "PenguinNumber" : {
+                        getPenguinNumbersSpeech(context);
+
+                        break;
+                    }
+
                     case "PenguinLocation" : {
 
                         getPenguinSpeech().then(speechData => {
@@ -51,6 +58,7 @@ exports.handler = (event, context, callback) => {
                             );
                         });
 
+                        break;
                     }
 
                     default : {
@@ -90,10 +98,22 @@ exports.handler = (event, context, callback) => {
     }
 };
 
-getPenguinSpeech().then(data => {
+
+function getPenguinNumbersSpeech(context) {
     "use strict";
-    console.log(data);
-});
+
+    let pengs = require("./NonCombat/Penguins");
+
+    pengs.getPenguinNumbers().then( numOfPenguins => {
+        context.succeed(
+            generateResponse(
+                buildSpeechletResponse(`There are ${numOfPenguins} penguins to spot this week.`, true),
+                {}
+            )
+        );
+    });
+
+}
 
 function getPenguinSpeech() {
     "use strict";

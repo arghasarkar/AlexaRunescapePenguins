@@ -3,9 +3,6 @@ exports.handler = (event, context, callback) => {
     const http = require("http");
 
 
-    console.log(event);
-
-
     try {
 
         if (event.session.new) {
@@ -26,11 +23,6 @@ exports.handler = (event, context, callback) => {
                 break;
             }
 
-
-
-
-
-
             case "IntentRequest": {
                 // Intent request
                 console.log("Intent request");
@@ -38,14 +30,10 @@ exports.handler = (event, context, callback) => {
 
                 switch (event.request.intent.name) {
                     case "PenguinLocation" : {
-                        context.succeed (
-                            generateResponse(
-                                buildSpeechletResponse("Penguinsss", true),
-                                {}
-                            )
-                        );
 
-                        break;
+                        return fetchData();
+
+
                     }
 
                     default : {
@@ -69,7 +57,21 @@ exports.handler = (event, context, callback) => {
 
     } catch(error) {
         endSessionHandler("Catch hit");
-        // context.fail("Failed due to some unknown error");
+    }
+
+    function fetchData() {
+        "use strict";
+
+        return fetch("http://2016.world60pengs.com/rest/cache/actives.json?_=1490474932011").then((response) => {
+            "use strict";
+            console.log("Fetch works");
+
+            console.log(response.text);
+
+            //return response.text;
+
+        });
+
     }
 
     function endSessionHandler(speech) {

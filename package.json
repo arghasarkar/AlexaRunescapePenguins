@@ -2,6 +2,7 @@
   "name": "AlexaRunescapePenguins",
   "version": "0.0.1",
   "dependencies": {
-    "natural": "^0.5.0"
+    "natural": "^0.5.0",
+    "node-fetch": "^1.6.3"
   }
 }

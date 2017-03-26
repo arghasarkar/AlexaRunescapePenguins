@@ -16,7 +16,7 @@ exports.handler = (event, context, callback) => {
             case "LaunchRequest": {
                 // Launch request
                 console.log("Launch request");
-                
+
                 getPenguinSpeech().then(speechData => {
                     "use strict";
                     console.log("Speech: ", speechData);
